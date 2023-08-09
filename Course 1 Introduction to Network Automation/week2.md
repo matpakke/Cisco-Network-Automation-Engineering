@@ -1067,3 +1067,69 @@ Example:
  >>> device.session_timeout
  180
  ```
+
+ # Practice Quiz for Netmiko
+
+**Question 1**
+An operator tests code against a Cisco Integrated Services Router using the Netmiko module in the Python interpreter. After successfully connecting to the device, the operator leaves the workstation for 5 minutes. When the operator returns, the device is no longer alive. What should the operator do to re-establish the connection?
+
+Use the Netmiko establish_connection() method.
+
+This command establishes an SSH connection to the network device.
+
+
+**Question 2**
+What is the relationship between Netmiko and Paramiko?
+
+Netmiko is a wrapper for Paramiko with added network intelligence for networking devices.
+
+**Correct**
+Netmiko is a wrapper for Paramiko, an SSH library in Python that adds some extra network intelligence for sending commands and logging in to networking devices.
+
+---
+
+# Graded Quiz for Using Python for Network Automation
+
+**Question 1**
+A module that is named inventory has a variable that is called devices. After successfully importing the module using import inventory, what is the proper syntax to print the contents of the variable?
+```
+print(inventory.devices)
+```
+Correct
+The correct answer is: "print(inventory.devices)."
+
+
+**Question 2**
+A method was successfully imported with the command from netmiko import ConnectHandler as ch. What does ch mean?
+
+The correct answer is: "It is a user-defined alias for the ConnectHandler."
+
+
+**Question 3**
+Which command is used to locate a Python package that is stored on the Python Package Index?
+
+
+The correct answer is: "pip search <PACKAGE>."
+
+
+**Question 4**
+Which two options can be used to list all available methods for any supported Python data type and learn how to use a given method? (Choose two.)
+
+- dir()
+- help()
+
+**Question 5**
+A variable of a dictionary data type named inventory has the following value: {"csr1kv1":{"vendor":"cisco"}}. Which Python command will print the value of the "vendor" key?
+
+The correct answer is: "print(inventory ["csr1kv1"]["vendor"])."
+
+
+**Question 6**
+Which program is used to install Python packages?
+
+The correct answer is: "pip." 
+
+**Question 7**
+Which option is an open source multivendor SSH Python package?
+
+The correct answer is: "Netmiko." 
