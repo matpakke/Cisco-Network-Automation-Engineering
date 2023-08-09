@@ -712,3 +712,358 @@ The next few steps showcase Option 1:
  >>> devnet.verify_bgp()
  BGP session is active
 ```
+
+# Practice Quiz for Network Libraries
+
+**Question 1**
+What should a folder contain for Python to consider it as a package?
+
+A __init__.py file, which can be empty.
+
+To be considered a traditional Python package, there must be an __init__.py in the root directory of the package's folder. The __init__.py can be empty.
+
+
+**Question 2**
+What environmental value is a list of directories that the operating system uses to search for Python modules and packages?
+
+PYTHONPATH
+
+The PYTHONPATH is a list of directories the system will search for Python modules and packages when doing imports in a script.
+
+---
+
+# Python Package Management
+Where can you find Python packages and libraries, and how can you manage your Python packages efficiently?
+
+![Automation_Index](gallery/CSAU_1-0-0_Automation_Index_001.png)
+
+If the code is licensed with open source, it is usually found on a public Git repository, such as GitHub, GitLab, or Bitbucket.  
+
+If it is a Python package, they are often stored on the PyPI, which is a repository of software for the Python programming language. PyPI, pronounced “pie-P-eye,” or “pie pie.”
+
+PyPI helps you find and install software that the Python community develops and shares. Package authors can use PyPI to distribute their software with the rest of the world. PyPI has more than 200,000 projects and 350,000 registered users. Detailed information about PyPI can be found on its website: [https://pypi.org/](https://pypi.org/).
+
+![_Automation_Python](gallery/CSAU_1-0-0_Automation_Python_001.png)
+
+
+**pip** is command-line tool that helps you interact with PyPI and manage Python software. With it, you can install software and any package that is available in PyPI. 
+
+## Common pip Commands
+There are several pip commands that you should know as you go on your network automation journey:
+
+- **pip search <PACKAGE_NAME>**: This command searches for the package name in the PyPI. 
+
+- **pip install <PACKAGE_NAME>**: This command installs the latest version of the package and its dependencies on the machine.
+
+- **pip install <PACKAGE_NAME>==1.0.0**: This command installs a specific version of the package and its dependencies on the machine.
+
+- **pip install ––upgrade <PACKAGE_NAME>**: This command upgrades the package to the latest version.
+
+- **pip install –r <REQUIREMENTS_FILE>**: This command installs all packages with specified versions from <REQUIREMENTS_FILE>.
+
+- **pip uninstall <PACKAGE_NAME>**: This command uninstalls the package.
+
+- **pip freeze**: This command allows you to show and preserve currently installed packages and their respective versions.
+
+- **pip freeze –r <REQUIREMENTS_FILE>**: This command allows you to show and preserve currently installed packages and their respective versions using the order in the given requirements file and its comments when generating output. 
+
+- **pip list**: This command shows the installed packages and their versions.
+
+- **pip list** -o: This command lists all outdated packages.
+
+- **pip install** package-name
+
+- **pip install** package-name **--upgrade**
+
+- **pip install –r requirements.txt**
+
+- **pip freeze**
+
+- **pip freeze > reqirements.txt**
+
+  
+![Automation_With_001](gallery/CSAU_1-0-0_Automation_Types_011.png)
+
+
+Although **pip** is a very useful program, it is not always available on the host machine, or you may want the latest software with a bug fix that is not yet posted on PyPI. In this case, you have another option available for installing the desired package. You must first use the **git clone** command to obtain the software.
+
+The process is as follows:
+
+1. First, you need to find the source code of the package. Netmiko is used for this example. Then you will copy it to your local machine. 
+
+2. Because the source code is stored on GitHub, you can clone it with the git command. The git command and GitHub are covered in more detail later in this course.
+
+```
+student@student-vm:~$ git clone https://github.com/ktbyers/netmiko.git netmiko
+ Cloning into 'netmiko'...
+ remote: Enumerating objects: 30, done.
+ remote: Counting objects: 100% (30/30), done.
+ remote: Compressing objects: 100% (23/23), done.
+ remote: Total 10779 (delta 12), reused 13 (delta 7), pack-reused 10749
+ Receiving objects: 100% (10779/10779), 3.13 MiB | 1.95 MiB/s, done.
+ Resolving deltas: 100% (7052/7052), done.
+ Checking connectivity... done.
+```
+
+The explanation of arguments that are supplied to git command are as follows:
+
+- **clone**: This argument clones a repository into a newly created directory.
+
+- https://github.com/ktbyers/netmiko.git: This argument a full path to the GitHub repository. 
+
+- **netmiko**: This argument is the folder name where the files should be cloned. If not supplied, then the name of the repository is used. 
+
+3. After successful cloning, the netmiko folder contains following files and folders.  
+
+```
+student@student-vm:~$ cd netmiko
+ student@student-vm:~/netmiko$ ls -al
+ drwxrwxrwx 1 student student  4096 Aug 15 17:44 ./
+ drwxrwxrwx 1 student student  4096 Aug 15 17:43 ../
+ drwxrwxrwx 1 student student  4096 Aug 15 17:44 build/
+ -rw-rw-rw- 1 student student  2957 Aug 15 17:43 COMMON_ISSUES.md
+ drwxrwxrwx 1 student student  4096 Aug 15 17:44 dist/
+ drwxrwxrwx 1 student student  4096 Aug 15 17:43 docs/
+ drwxrwxrwx 1 student student  4096 Aug 15 17:43 examples/
+ drwxrwxrwx 1 student student  4096 Aug 15 17:47 .git/
+ -rw-rw-rw- 1 student student   417 Aug 15 17:43 .gitignore
+ -rw-rw-rw- 1 student student  1078 Aug 15 17:43 LICENSE
+ -rw-rw-rw- 1 student student    55 Aug 15 17:43 MANIFEST.in
+ drwxrwxrwx 1 student student  4096 Aug 15 17:43 netmiko/
+ drwxrwxrwx 1 student student  4096 Aug 15 17:44 netmiko.egg-info/
+ -rw-rw-rw- 1 student student  1075 Aug 15 17:43 PLATFORMS.md
+ -rw-rw-rw- 1 student student  8712 Aug 15 17:43 README.md
+ -rw-rw-rw- 1 student student   711 Aug 15 17:43 release_process.txt
+ -rwxrwxrwx 1 student student  3641 Aug 15 17:43 _release.sh*
+ -rw-rw-rw- 1 student student   138 Aug 15 17:43 requirements-dev.txt
+ -rw-rw-rw- 1 student student    70 Aug 15 17:43 requirements-genie.txt
+ -rw-rw-rw- 1 student student    50 Aug 15 17:43 requirements.txt
+ -rw-rw-rw- 1 student student   230 Aug 15 17:43 setup.cfg
+-rw-rw-rw- 1 student student  1953 Aug 15 17:43 setup.py
+ -rw-rw-rw- 1 student student   997 Aug 15 17:43 TESTING.md
+ drwxrwxrwx 1 student student  4096 Aug 15 17:43 tests/
+ -rw-rw-rw- 1 student student   472 Aug 15 17:43 tox.ini
+ -rw-rw-rw- 1 student student   976 Aug 15 17:43 travis_ci_process.txt
+ -rw-rw-rw- 1 student student 10256 Aug 15 17:43 travis_test_env.tar.enc
+ -rw-rw-rw- 1 student student  1704 Aug 15 17:43 travis_test.py
+ -rwxrwxrwx 1 student student   151 Aug 15 17:43 travis_test.sh*
+ -rw-rw-rw- 1 student student   237 Aug 15 17:43 .travis.yml
+ -rw-rw-rw- 1 student student  2300 Aug 15 17:43 VENDOR.md
+```
+
+The setup.py file allows you to do the following:
+
+- build: This option creates a symbolic link in the site-packages folder, and you can test the package as you modify it. It is used to add functionality and test without installing it in a system path.
+
+- install: This option installs the package and the dependencies in the site-packages folder.
+
+4. When you want to install it, you need to use the install option:
+
+```
+student@student-vm:~/netmiko$ python setup.py install
+ running install
+ running bdist_egg
+ running egg_info
+ creating netmiko.egg-info
+ writing requirements to netmiko.egg-info/requires.txt
+ writing netmiko.egg-info/PKG-INFO
+ writing dependency_links to netmiko.egg-info/dependency_links.txt
+ writing top-level names to netmiko.egg-info/top_level.txt
+ writing manifest file 'netmiko.egg-info/SOURCES.txt'
+ reading manifest file 'netmiko.egg-info/SOURCES.txt'
+ reading manifest template 'MANIFEST.in'
+ writing manifest file 'netmiko.egg-info/SOURCES.txt'
+ installing library code to build/bdist.linux-x86_64/egg
+ running install_lib
+ running build_py
+ <... Output omitted ...>
+```
+
+5. After the installation is complete, you can start to use it. To test, run the Python interpreter and import the Netmiko package. If it is present, you should not see any errors.
+
+```
+student@student-vm:~/netmiko$ python
+ Python 3.6.8 (default, Jan 14 2019, 11:02:34)
+ [GCC 8.0.1 20180414 (experimental) [trunk revision 259383]] on linux
+ Type "help", "copyright", "credits" or "license" for more information.
+ >>> import netmiko
+ >>>
+```
+
+It is important to note that modules that are installed from GitHub often have a default branch of “development” that contains the latest code or functionality. This code or functionality might be in a phase that is as early as the alpha or beta testing stage. The module that is installed from PyPI using the pip install command is always the stable version.
+
+# Practice Quiz for Python Package Management
+
+**Question 1**
+If you are using the package installer for Python which command installs all Python packages with specified versions from a text file?
+
+pip install -r requirements.txt
+
+The **pip install** command with the -r argument followed by a text file is used to install all Python packages with specified versions from a text file. When using pip install, requirements files list the items to be installed. Python users often refer to files that use this format as "pip **requirements.txt files**," although they don't have to be named that way. 
+
+**Question 2**
+What can be done if pip is unavailable on the host machine or you need the latest software with a bug fix not yet posted on PyPI?
+
+Use the git clone command to obtain the software.
+
+If pip is unavailable on the host machine or you need the latest software with a bug fix not yet posted on PyPI, you can use the git clone command to obtain the software from a Git repository. This allows you to download the latest code for the package and install it manually.
+
+---
+
+# Netmiko
+What is a popular method for communicating with network devices and servers? Most of you would probably answer “via an SSH client” like PuTTY, SecureCRT, or a Linux terminal with an SSH client. With the shift to network automation, there needs to be a way to “use SSH from Python.” Netmiko can help.
+
+![Automation_Netmiko_001](gallery/CSAU_1-0-0_Automation_Netmiko_001.png)
+
+Netmiko is a Python-based SSH client.
+
+Now, rather than connecting to each device separately from a GUI client and issuing the desired commands one by one, the whole process can be automated with Python and the commands can be applied to all devices at once if necessary. Netmiko is actually a wrapper for Paramiko (the de facto SSH library in Python) with some added network intelligence for sending commands, log in to devices, and so on, which is why Netmiko is becoming the de facto SSH client for networking devices.
+
+![Automation_Systems](gallery/CSAU_1-0-0_Automation_Systems_001.png)
+
+Netmiko supports more than 20 different vendors, most notably Cisco, with Cisco IOS, Cisco IOS XE, and Cisco Nexus Operating System (NX-OS), and others. 
+
+In the following design activity, you will examine a Netmiko use case with Cisco Cloud Services Routers:
+
+- **Challenge**: You have 10 Cisco CSR routers that need the following:
+
+    - Configured hostnames
+
+    - SSH as the only permitted terminal connection method
+
+    - Configured loopback interface with proper IP address  
+
+- **Assumption**:
+
+    - An inventory dictionary containing all necessary information exists.
+
+    - A template for each configuration type exists. 
+
+- **Solution**:
+
+    - Generate a configuration file using templates and information from the inventory dictionary. 
+
+    - Connect to each device using Netmiko. 
+
+    - Push the configuration file.
+
+    - Verify that the configuration was successfully applied.
+
+    - Disconnect from the device.
+
+## Common Netmiko Methods
+Netmiko has many functions (methods) that developers can use while interacting with the device. Because it is a very long list, the most useful ones are discussed here with a detailed description and applicable use cases. To learn about all supported methods, refer to the official Netmiko documentation.
+
+![Automation_Netmiko_002](gallery/CSAU_1-0-0_Automation_Netmiko_002.png)
+
+- **ConnectHandler()**: This Python class initiates a connection with the device. You will need to provide an IP address, username, password, and device type information to successfully initiate a connection.  
+
+Example: 
+
+```
+ >>> device = ConnectHandler(host="csr1kv1", username="cisco", password="cisco", device_type="cisco_xe") 
+```
+
+- **is_alive()**: This method determines if the connection with the device is alive and returns True or False. 
+
+Example: 
+
+```
+ >>> device.is_alive()
+ True
+```
+
+- **establish_connection()**: In cases when the device is disconnected manually or automatically due to a connection timeout (default 60 seconds), this method can be used to reinitiate the connection.
+
+Example: 
+
+```
+ >>> device.is_alive()
+ False
+ >>> device.establish_connection()
+ >>> device.is_alive()
+ True
+```
+
+- **disconnect()**: This method is used to manually disconnect the session.
+
+Example:
+
+```
+ >>> device.is_alive()
+ True
+ >>> device.disconnect()
+ >>> device.is_alive()
+ False
+```
+
+- **send_command(<VALID_COMMAND>)**: Use this method to send an operational show command to the device. It must be a single string that contains a valid command. 
+
+Example:
+
+```
+ >>> device.send_command("show version")
+ 'Cisco IOS XE Software, Version 16.09.03\nCisco IOS Software [Fuji], Virtual XE Software (X86_64_LINUX_IOSD-UNIVERSALK9-M), Version 16.9.3, RELEASE SOFTWARE (fc2)\nTechnical Support: http://www.cisco.com/techsupport\nCopyright (c) 1986-2019 by Cisco Systems, Inc.\nCompiled Wed 20-Mar-19 07:56 by mcpre\n\n\nCisco IOS-XE software, Copyright (c) 2005-2019 by cisco Systems, Inc.\nAll rights reserved.  Certain components of Cisco IOS-XE software are\nlicensed under the GNU General Public License ("GPL")
+ <... output omitted ...>
+```
+
+- **send_config_from_file(<PATH_TO_THE_FILE>)**: This method can be used to apply a configuration file to the device. In the argument, you must supply a full path to the configuration file.
+
+Example:
+
+```
+% cat interface_conf.cfg
+ interface GigabitEthernet1
+  description SALES 
+ >>> device.send_config_file("/home/student/config_files/interface_conf.cfg")
+ 'config term\nEnter configuration commands, one per line.  End with CNTL/Z.\ncsr1kv1(config)#interface GigabitEthernet1\ncsr1kv1(config-if)#  description SALES\ncsr1kv1(config-if)#end\ncsr1kv1#'
+```
+
+- **send_config_set([<COMMAND_1>, <COMMAND_2>])**: This method can be used to send a list of configuration commands to the device. The list must contain commands as a string and must be in proper order.
+
+Example:
+
+```
+ >>> print(interface_config)
+ ['interface GigabitEthernet1', 'description HR']
+ >>> device. send_config_set(interface_config)
+ 'config term\nEnter configuration commands, one per line.  End with CNTL/Z.\ncsr1kv1(config)#interface GigabitEthernet1\ncsr1kv1(config-if)#description HR\ncsr1kv1(config-if)#end\ncsr1kv1#'
+```
+
+- **open_session_log(<FILE_NAME>)**: Use this method to log your session to a file for debugging purposes.
+
+Example:
+
+ ```
+ >>> device.open_session_log("/home/student/logs/CSR.log")
+ % cat CSR.log
+ csr1kv1#show version
+ Cisco IOS XE Software, Version 16.09.03
+ Cisco IOS Software [Fuji], Virtual XE Software (X86_64_LINUX_IOSD-UNIVERSALK9-M), Version 16.9.3, RELEASE SOFTWARE (fc2)
+ Technical Support: http://www.cisco.com/techsupport
+ Copyright (c) 1986-2019 by Cisco Systems, Inc.
+ Compiled Wed 20-Mar-19 07:56 by mcpre
+ Cisco IOS-XE software, Copyright (c) 2005-2019 by cisco Systems, Inc.
+ All rights reserved.  Certain components of Cisco IOS-XE software are
+ licensed under the GNU General Public License ("GPL") Version 2.0.  The
+ software code licensed under GPL Version 2.0 is free software that comes
+ with ABSOLUTELY NO WARRANTY.  You can redistribute and/or modify such
+ GPL code under the terms of GPL Version 2.0.  For more details, see the
+ documentation or "License Notice" file accompanying the IOS-XE software,
+ or the applicable URL provided on the flyer accompanying the IOS-XE
+ software.
+ <... output omitted ...>
+ ```
+
+- **session_timeout**: This variable defines the number of seconds after which the session should time out. It can be defined with ConnectHandler as an extra argument, or can be changed after the connection is initiated. The default value is 60 seconds.
+
+Example:
+
+```
+>>> device = ConnectHandler(host="csr1kv1", username="cisco", password="cisco", device_type="cisco_xe", session_timeout=120)
+ >>> device.session_timeout
+ 120
+ >>> device.session_timeout = 180
+ >>> device.session_timeout
+ 180
+ ```
