@@ -488,3 +488,227 @@ Two Python packages that are open source and quite popular in the network indust
 
 - NAPALM: This package implements a set of functions that interact with different network device operating systems using a unified API: 
 [https://github.com/napalm-automation/napalm](https://github.com/napalm-automation/napalm)
+
+---
+
+# Inside Python Modules
+
+Remember that a Python module is simply a Python file that has one or more Python objects, such as variables, functions, and classes. Now you will examine the inside of a Python module.
+
+![Automation_Modules_002](gallery/CSAU_1-0-0_Automation_Modules_002.png)
+
+Keep in mind that modules can use other modules. This process is possible using import statements just like you would do if you were writing a script (not a module).
+
+Here are some examples of Python modules:
+
+- **device_data.py**
+
+```
+ USERNAME = "cisco"
+ PASSWORD = "cisco"
+ DEVICE_TYPE = "cisco_xe"
+ INVENTORY = ["csr1kv1", "csr1kv2", "csr1kv3"]
+```
+
+This module only has variables. Other Python scripts and other Python modules can use these variables. Here is an example of a script that uses the device_data.py module:
+
+- **automation_code.py**
+
+```
+ import device_data
+ print(device_data.USERNAME)
+ print(device_data.INVENTORY)
+```
+
+There are many ways to import data within a script from a module. Here are a few other examples that could have been used:
+
+```
+ import device_data as dd
+ print(dd.USERNAME)
+
+ from device_data import USERNAME
+ print(USERNAME)
+
+ from device_data import USERNAME as user
+ print(user)
+
+ from device_data import PASSWORD
+ print(PASSWORD) 
+
+Python classes and functions can also be saved in a module file and can be referenced in any other Python code.
+```
+
+- **cisco_networks.py**
+
+```
+ def print_routers():
+    ... 
+ def verify_bgp(device):
+    ... 
+ def configure_bgp():
+    ...
+```
+
+- **automation.py**
+
+## Constructing a Module
+
+![Automation_Modules_003](gallery/CSAU_1-0-0_Automation_Modules_003.png)
+
+As you have seen already, it is quite straightforward to create a Python module once you know Python fundamentals. Now you will look at an example that contains a small device inventory and a basic Python function that prints each device name in the inventory.
+
+The example will use the Python interpreter. The devnet.py file is a custom module for this class that resides in /home/student/modules folder.
+
+```
+student@student-vm:~$ cat modules/devnet.py
+ inventory = {
+    "csr1kv1": { 
+        "username": "cisco", 
+        "password": "cisco", 
+        "device_type": "cisco_ios", 
+    }, 
+    "csr1kv2": { 
+        "username": "cisco", 
+        "password": "cisco", 
+        "device_type": "cisco_ios", 
+    }, 
+ }
+
+ def print_routers():
+    for router in inventory: 
+        print(router) 
+
+ def verify_bgp():
+    print("BGP session is active") 
+
+ def configure_bgp():
+    for router in inventory: 
+        print("Configuring BGP for {} ".format(router))
+```
+
+The Python interpreter is opened by typing the **python** command. Note: The present working directory is /home/student.
+
+ student@student-vm:~$ **python**
+ ```
+ Python 3.6.8 (default, Jan 14 2019, 11:02:34)
+ [GCC 8.0.1 20180414 (experimental) [trunk revision 259383]] on linux
+ Type "help", "copyright", "credits" or "license" for more information.
+ >>> 
+```
+
+If you attempt to import the module immediately, it will fail. 
+
+```
+ >>> import devnet
+ Traceback (most recent call last):
+  File "<stdin>", line 1, in <module> 
+ ModuleNotFoundError: No module named 'devnet'
+```
+
+There are four options to resolve the problem: 
+
+- Change your present working directory to the modules folder, then start the interpreter (this option is the easiest). 
+
+- Create a special file in the modules folder named __init__.py (completely empty), which will make your folder a package.
+
+- Add the modules folder to your PYTHONPATH environmental variable. 
+
+- Copy the devnet.py module to a folder that exists in PYTHONPATH.
+
+
+Here are the options in operation:
+
+- **Option 1**: Change the working directory.
+
+```
+ >>> quit()
+ student@student-vm:~$ cd modules
+ student@student-vm:~/modules$ python
+ Python 3.6.8 (default, Jan 14 2019, 11:02:34)
+ [GCC 8.0.1 20180414 (experimental) [trunk revision 259383]] on linux
+ Type "help", "copyright", "credits" or "license" for more information.
+ >>> import devnet
+ >>> print(devnet.inventory)
+ {'csr1kv1': {'username': 'cisco', 'password': 'cisco', 'device_type': 'cisco_ios'}, 'csr1kv2': {'username': 'cisco', 'password': 'cisco', 'device_type': 'cisco_ios'}}
+```
+
+- Option 2: Create the __init__.py file in the modules folder:
+
+```
+ >>> quit()
+ student@student-vm:~$ touch modules/__init__.py
+ student@student-vm:~$ python
+ Python 3.6.8 (default, Jan 14 2019, 11:02:34)
+ [GCC 8.0.1 20180414 (experimental) [trunk revision 259383]] on linux
+ Type "help", "copyright", "credits" or "license" for more information.
+ >>> import modules.devnet
+ >>> print(modules.devnet.inventory)
+ {'csr1kv1': {'username': 'cisco', 'password': 'cisco', 'device_type': 'cisco_ios'}, 'csr1kv2': {'username': 'cisco', 'password': 'cisco', 'device_type': 'cisco_ios'}}
+```
+
+- **Option 3**: Add the modules folder to the PYTHONPATH environmental variable.
+
+```
+ >>> import sys
+ >>> sys.path.insert(1, '/home/student/modules/') #sys.path is a list and we can invoke any methods a list supports
+ >>> import devnet
+ >>> print(devnet.inventory)
+ {'csr1kv1': {'username': 'cisco', 'password': 'cisco', 'device_type': 'cisco_ios'}, 'csr1kv2': {'username': 'cisco', 'password': 'cisco', 'device_type': 'cisco_ios'}}
+```
+
+You should update .bashrc in your home directory to add to the PYTHONPATH if you need the PYTHONPATH to have a new directory search for all apps. 
+
+- **Option 4**. Copy your module to a folder that exists in the PYTHONPATH environmental variable. (Superuser permission is required.  
+
+```
+ >>> import sys
+ >>> sys.path
+ ['', '/usr/lib/python36.zip', '/usr/lib/python3.6', '/usr/lib/python3.6/lib-dynload', '/home/student/.local/lib/python3.6/site-packages', '/usr/local/lib/python3.6/dist-packages', '/usr/lib/python3/dist-packages']
+ >>> quit()
+ student@student-vm:~$ sudo cp modules/devnet.py /usr/lib/python3/dist-packages/
+ student@student-vm:~$ python
+ Python 3.6.8 (default, Jan 14 2019, 11:02:34)
+ [GCC 8.0.1 20180414 (experimental) [trunk revision 259383]] on linux
+ Type "help", "copyright", "credits" or "license" for more information.
+ >>> import devnet
+ >>> print(devnet.inventory)
+ {'csr1kv1': {'username': 'cisco', 'password': 'cisco', 'device_type': 'cisco_ios'}, 'csr1kv2': {'username': 'cisco', 'password': 'cisco', 'device_type': 'cisco_ios'}}
+```
+ 
+The next few steps showcase Option 1: 
+
+- The following illustrates the interaction with the module’s object (variable) and methods (functions).
+
+```
+ student@student-vm:~$ cd modules
+ student@student-vm:~/modules$ python
+ Python 3.6.8 (default, Jan 14 2019, 11:02:34)
+ [GCC 8.0.1 20180414 (experimental) [trunk revision 259383]] on linux
+ Type "help", "copyright", "credits" or "license" for more information.
+ >>> import devnet
+ ```
+
+- You can see which objects the devnet module provides by using the dir() built-in method.
+
+```
+ >>> dir(devnet)
+ ['__builtins__', '__cached__', '__doc__', '__file__', '__loader__', '__name__', '__package__', '__spec__', 'configure_bgp', 'inventory', 'print_routers', 'verify_bgp']
+```
+
+- From the output, you cannot determine the type of object for 'configure_bgp', 'inventory', 'print_routers', 'verify_bgp'. To solve this problem, just use the type() method.
+
+```
+ >>> type(devnet.verify_bgp)
+ <class 'function'>
+ >>> type(devnet.inventory)
+ <class 'dict'>
+ >>> devnet.inventory
+ {'csr1kv1': {'username': 'cisco', 'password': 'cisco', 'device_type': 'cisco_ios'}, 'csr1kv2': {'username': 'cisco', 'password': 'cisco', 'device_type': 'cisco_ios'}}
+```
+
+- The following will run a function from the devnet module. 
+
+```
+ >>> devnet.verify_bgp()
+ BGP session is active
+```
