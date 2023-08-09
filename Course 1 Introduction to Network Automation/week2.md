@@ -371,3 +371,120 @@ The following examples illustrate functions and how to use them:
  >>> int(3.14)
  3
 ```
+
+# Practice Quiz for Python Fundamentals
+
+**Question 1**
+A variable of the list data type that is named devices has the following value: [{"hostname":"csr1kv1"}]. Which Python command will print the value of the "hostname" key?
+
+The correct answer is: "print(devices[0]["hostname"])." The variable devices is a list data type that contains a single entry which is a dictionary data type. Lists have ordered positions, and the first entry is index "0". Dictionaries are made of key-value pairs. To retrieve a value from a dictionary, you need the key, and in this case, the key is "hostname". Therefore, the print statement prints the dictionary value that is in index "0" of the list with the key "hostname" in the dictionary.
+
+
+**Question 2**
+Refer to the following Python script. Which message will be printed?
+
+```
+models=["ASA", "NEXUS", "CATALYST"]
+if "asa" in models:
+    print("models variable contains ASA")
+elif "nexus".upper() in models:
+    print("models variable contains NEXUS")
+elif models[-1] == "CATALYST":
+    print("models variable contains CATALYST")
+else:
+    print("No Match Was Found!")
+```
+
+**models variable contains NEXUS**
+
+This is correct because when the conditional statement on line 4 evaluates the model object, it is true, which will then execute the following indented command. Once evaluated as true, no further conditional statements are then evaluated.
+
+**Question 3**
+Which is the correct syntax to define a function?
+
+
+**def print_hostname():**
+
+This is the correct format for writing a Python function.
+
+---
+
+# Network Libraries
+A software library is collection of a prewritten code to assist developers during their software creation process. From Python’s perspective, here is a breakdown of the available prewritten code.
+
+![Automation_Libraries_001](gallery/CSAU_1-0-0_Automation_Libraries_001.png)
+
+A module is a single file that contains Python objects that can be reused in scripts.
+
+A package is a collection of modules, in one or more directories, to streamline and modularize development of the package.
+
+The term “library” is often used to refer to a collection of modules or packages. Very often the standard modules that come with an install of Python are referred to as the “Python standard library.”
+
+Libraries can come from different sources. In Python, people who are responsible for Python itself develop and maintain libraries. Again, this library is the standard library.
+
+However, Python is not limited to the standard library. Developers can download libraries from open source and public communities that are often found on GitHub or the Python Package Index (PyPI). 
+
+The last type of library is one that is developed in a company for a specific purpose. These libraries are customized, in-house libraries. For example, large clients may have in-house libraries and code to provision different pods for requesting users. This code is customized, not public, and is usually specific to a use case.
+
+## Modules and Packages 
+
+![Automation_Package_001](gallery/CSAU_1-0-0_Automation_Package_001.png)
+
+The difference between the Python module and the Python package was mentioned earlier. A module is a single file with the .py extension that contains some usable code. A package is a collection of modules that is stored in a folder where the name of the folder is the name of the package. 
+
+You might be wondering how you can differentiate a package from a module in the Python code itself. You can make this distinction when a module is imported and a single file is referenced. For example, import Netmiko or from Netmiko, import ConnectHandler. If you want to import a module from a package, then you must use “dotted module names.” For example, you could use 
+
+```
+ >>> import cobra.mit.access
+```
+ or
+```
+ >>> from cobra.mit.access import MoDirectory 
+```
+
+where each name that is followed by a dot represents a folder and the last entry in the chain represents a file (module).
+
+
+## Use the PYTHONPATH
+
+![Automation_Modules_001](gallery/CSAU_1-0-0_Automation_Modules_001.png)
+
+By default, you can be in any directory to use the Python standard library. For other software, and maybe custom modules, you may write a script. The script must be stored in one of two locations: the local directory where the script is saved or within the PYTHONPATH environment variable. The PYTHONPATH is a list of directories that the system will search for Python modules and packages when doing imports in a script. It is quite common to update the PYTHONPATH in a login script such as .profile.
+
+You can check the PYTHONPATH on the Linux shell using the env command to see any custom paths that have been added. To see all available directories that Python will search, you can easily check from the Python shell using the **sys.path** command:
+
+```
+ >>> import sys
+ >>> print(sys.path)
+ ['', '/usr/lib/python36.zip', '/usr/lib/python3.6', '/usr/lib/python3.6/lib-dynload', '/home/student/.local/lib/python3.6/site-packages', '/usr/local/lib/python3.6/dist-packages', '/usr/lib/python3/dist-packages']
+```
+
+## Import Statements
+Import statements help you perform many tasks.
+
+![Automation_Code_001](gallery/CSAU_1-0-0_Automation_Code_001.png)
+
+The following provides a description of the different import methods and what they do:
+
+- **import netmiko**: This method will import everything in the Netmiko module. Suppose that Netmiko has a variable called VERSION that is defined in its file. To use that variable, you will need to use the following format to refer to it: netmiko.VERSION. The same requirement applies to the classes and functions. ConnectHandler is part of the Netmiko module and you can use it by following the same syntax: netmiko.ConnectHandler().
+
+- **from netmiko import ConnectHandler**: This method tells python to extract the object (in this instance, the object is the ConnectHandler) from the module and make it directly callable. Directly callable means that you do not need to refer to the module name and the object. Instead, you can use the class name directly. The same approach applies to the functions and variables.
+
+- **from netmiko import ConnectHandler as ch**: Some objects have really long names, and to make them shorter, you can create aliases of the original object. Now, instead of ConnectHandler, you can use ch.
+
+
+## Free Open Source Software 
+Python software is available in many places. There is a growing community of network developers who host their code on GitHub including Cisco DevNet, which has several free and open source projects on the DevNet Code Exchange, a curated collection of example code and projects.
+
+![Automation_Libraries_022](gallery/CSAU_1-0-0_Automation_Libraries_022.png)
+
+
+You can find several Cisco libraries on the CiscoDevNet GitHub page: https://github.com/CiscoDevNet
+
+Two Python packages that are open source and quite popular in the network industry are Netmiko and Network Automation and Programmability Abstraction Layer with Multivendor (NAPALM):
+
+- Netmiko: This package is a multivendor SSH library for Python to simplify Paramiko SSH connections to network devices: 
+[https://github.com/ktbyers/netmiko](https://github.com/ktbyers/netmiko)
+
+- NAPALM: This package implements a set of functions that interact with different network device operating systems using a unified API: 
+[https://github.com/napalm-automation/napalm](https://github.com/napalm-automation/napalm)
